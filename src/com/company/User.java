@@ -38,6 +38,7 @@ public class User {
         groupForces.add(groupForce) ;
     }
 
-
-
+    public ArrayList<GroupForce> getGroupForces() {
+        return groupForces;
+    }
 }

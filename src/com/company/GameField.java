@@ -263,9 +263,39 @@ public class GameField {
             System.out.println() ;
         }
 
+    }
+
+
+
+    public void setForces (User user1, User user2){
+        for (int x = 1; x <= 25; x++){
+            for (int y = 1; y <= 9; y++){
+                if (field[x][y] != null){
+                    field[x][y].setGroupForce(null) ;
+                }
+            }
+        }
+
+
+        for (GroupForce groupForce : user1.getGroupForces()){
+            int x = groupForce.getX() ;
+            int y = groupForce.getY() ;
+            field[x][y].setGroupForce(groupForce) ;
+        }
+        for (GroupForce groupForce : user2.getGroupForces()){
+            int x = groupForce.getX() ;
+            int y = groupForce.getY() ;
+            field[x][y].setGroupForce(groupForce) ;
+        }
+
+
+
+
+
 
 
     }
+
 
 
 

@@ -36,8 +36,7 @@ public class Main {
         User user2 = new User("f") ;
         addForcesToAllied(user1) ;
         addForcesToAxis(user2) ;
-
-        
+        gameField.setForces(user1, user2) ;
 
 
 

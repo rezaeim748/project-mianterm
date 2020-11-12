@@ -38,6 +38,15 @@ public class Main {
         addForcesToAxis(user2) ;
         gameField.setForces(user1, user2) ;
 
+        boolean finished = false ;
+        while (!finished){
+            user1.getCommands() ;
+            if (finished){
+                break ;
+            }
+            user2.getCommands() ;
+        }
+
 
 
 

@@ -41,4 +41,7 @@ public class User {
     public ArrayList<GroupForce> getGroupForces() {
         return groupForces;
     }
+
+    public void getCommands (){}
+
 }

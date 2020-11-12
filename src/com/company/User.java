@@ -34,6 +34,10 @@ public class User {
         medalOfConquest = number ;
     }
 
+    public void addGroupForce (GroupForce groupForce){
+        groupForces.add(groupForce) ;
+    }
+
 
 
 }

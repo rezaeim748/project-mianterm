@@ -2,8 +2,8 @@ package com.company;
 
 public class GroupPrivate extends GroupForce {
 
-    public GroupPrivate (User user, int number){
-        super(user, number, 4) ;
+    public GroupPrivate (User user, int number, int x, int y){
+        super(user, number, 4, x, y) ;
     }
 
     @Override

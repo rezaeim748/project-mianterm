@@ -9,10 +9,12 @@ public abstract class GroupForce {
     private int y ;
 
 
-    public GroupForce (User user, int number, int unitsNumber){
+    public GroupForce (User user, int number, int unitsNumber, int x, int y){
         this.user = user ;
         this.number = number ;
         this.unitsNumber = unitsNumber ;
+        this.x = x ;
+        this.y = y ;
     }
 
     public int getNumber() {

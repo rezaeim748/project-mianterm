@@ -2,8 +2,8 @@ package com.company;
 
 public class GroupArtillery extends GroupForce {
 
-    public GroupArtillery (User user, int number){
-        super(user, number, 2) ;
+    public GroupArtillery (User user, int number, int x, int y){
+        super(user, number, 2, x, y) ;
     }
 
     @Override

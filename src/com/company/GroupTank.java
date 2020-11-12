@@ -2,8 +2,8 @@ package com.company;
 
 public class GroupTank extends GroupForce {
 
-    public GroupTank (User user, int number, int unitsNumber){
-        super(user, number, unitsNumber) ;
+    public GroupTank (User user, int number, int unitsNumber, int x, int y){
+        super(user, number, unitsNumber, x, y) ;
     }
 
     @Override

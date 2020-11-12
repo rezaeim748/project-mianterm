@@ -4,6 +4,20 @@ public class GameField {
 
     private House[][] field ;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+
+
+
+
     public GameField (){
         field = new House[26][10] ;
         setField() ;
@@ -216,6 +230,29 @@ public class GameField {
                     System.out.print(" ") ;
                 }
                 else {
+                    switch (coordinates[x][y]){
+                        case "*" :
+                            System.out.print(ANSI_WHITE) ;
+                            break ;
+                        case "^" :
+                            System.out.print(ANSI_PURPLE) ;
+                            break ;
+                        case "#" :
+                            System.out.print(ANSI_GREEN) ;
+                            break ;
+                        case ";" :
+                            System.out.print(ANSI_RED) ;
+                            break ;
+                        case "+" :
+                            System.out.print(ANSI_YELLOW) ;
+                            break ;
+                        case "'" :
+                            System.out.print(ANSI_BLUE) ;
+                            break ;
+                        case ":" :
+                            System.out.print(ANSI_CYAN) ;
+                            break ;
+                    }
                     System.out.print(coordinates[x][y]) ;
                 }
             }

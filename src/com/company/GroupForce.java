@@ -9,7 +9,11 @@ public abstract class GroupForce {
     private int y ;
 
 
-    public GroupForce (User user, int number, int unitsNumber){}
+    public GroupForce (User user, int number, int unitsNumber){
+        this.user = user ;
+        this.number = number ;
+        this.unitsNumber = unitsNumber ;
+    }
 
     public int getNumber() {
         return number;

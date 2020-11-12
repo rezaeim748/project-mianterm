@@ -4,6 +4,7 @@ public class GameField {
 
     private House[][] field ;
 
+
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -146,6 +147,9 @@ public class GameField {
         field[21][9] = new House(HouseType.ORDINARY, 21, 9) ;
         field[23][9] = new House(HouseType.CITY, 23, 9) ;
         field[25][9] = new House(HouseType.ORDINARY, 25, 9) ;
+
+
+
 
     }
 

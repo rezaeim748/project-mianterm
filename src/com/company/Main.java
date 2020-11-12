@@ -7,6 +7,10 @@ public class Main {
 
         GameField gameField = new GameField() ;
 
+
+
+
+
         gameField.showCoordinates() ;
 
 

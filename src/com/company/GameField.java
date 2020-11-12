@@ -147,18 +147,25 @@ public class GameField {
                     switch (house.getType()) {
                         case ORDINARY:
                             mark = "*" ;
+                            break ;
                         case HILL:
                             mark = "^" ;
+                            break ;
                         case JUNGLE:
                             mark = "#" ;
+                            break ;
                         case SHELTER:
                             mark = ";" ;
+                            break ;
                         case CITY :
                             mark = "+" ;
+                            break ;
                         case RIVER :
                             mark = "'" ;
+                            break ;
                         case BRIDGE :
                             mark = ":" ;
+                            break ;
                     }
 
                     int xCoordinate = 3 * house.getX() - 2 ;
@@ -199,6 +206,12 @@ public class GameField {
         String[][] coordinates = setFieldToCoordinates() ;
         for (int y = 1; y <= 36; y++){
             for (int x = 1; x <= 78; x++){
+                if ((x % 6 == 1) & ((y % 8 >= 1) & (y % 8 <= 4))){
+                    System.out.print(" ") ;
+                }
+                if ((x % 6 == 4) & ((y % 8 >= 5) | (y % 8 == 0))){
+                    System.out.print(" ") ;
+                }
                 if (coordinates[x][y] == null){
                     System.out.print(" ") ;
                 }

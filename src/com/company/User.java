@@ -330,10 +330,36 @@ public class User {
             while (true){
                 groupName = reader.nextLine() ;
                 groupForce = isGroupForceValid(groupName) ;
-                if (groupForce != null){
-                    break ;
+                if (groupForce == null){
+                    System.out.println("Please write a valid group force name") ;
                 }
-                System.out.println("Please write a valid group force name") ;
+                else {
+                    if (typeNumber == 1){
+                        if (!(groupForce instanceof  GroupPrivate)){
+                            System.out.println("write a group of private name") ;
+                        }
+                        else {
+                            break ;
+                        }
+                    }
+                    if (typeNumber == 2){
+                        if (!(groupForce instanceof GroupTank)){
+                            System.out.println("write a group of tank name") ;
+                        }
+                        else {
+                            break ;
+                        }
+                    }
+                    if (typeNumber == 3){
+                        if (!(groupForce instanceof GroupArtillery)){
+                            System.out.println("write a group of artillery name") ;
+                        }
+                        else {
+                            break ;
+                        }
+                    }
+                }
+
             }
             wantedGroupForces.add(groupForce) ;
         }

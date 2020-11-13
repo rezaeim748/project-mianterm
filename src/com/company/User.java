@@ -58,6 +58,7 @@ public class User {
         for (int i = 1; i <= cards.size(); i++){
             System.out.print(i + "." + cards.get(i - 1).getType() + "  ") ;
         }
+        System.out.println() ;
     }
 
 
@@ -81,6 +82,174 @@ public class User {
         }
         return false ;
     }
+
+
+    public boolean checkInputToMove (Scanner reader, GroupForce groupForce, GameField gameField){
+        System.out.print("write your movement description for " + groupForce.toString() + ": ") ;
+        String temp ;
+        String[] tempArr ;
+        boolean canAttack = true ;
+
+        while (true){
+            temp = reader.nextLine() ;
+            tempArr = temp.split(" ", 6) ;
+            int deltaX = 0 ;
+            int deltaY = 0 ;
+
+            if (temp.equals("0")){
+                break ;
+            }
+
+            boolean correctness = true ;
+            for (int i = 0; i < tempArr.length; i++){
+                switch ("" + tempArr[i].charAt(0)){
+                    case "U" :
+                    case "D" :
+                        if (("" + tempArr[i].charAt(1)).equals("R") || ("" + tempArr[i].charAt(1)).equals("L")){
+                            int diagonalMovement = myParseInt(tempArr[i].substring(2)) ;
+                            if (!((diagonalMovement >= 1) && (diagonalMovement <= 8))){
+                                correctness = false ;
+                            }
+                            else {
+                                switch ("" + tempArr[i].charAt(0)){
+                                    case "U" :
+                                        switch ("" + tempArr[i].charAt(1)){
+                                            case "R" :
+                                                deltaX += diagonalMovement ;
+                                                deltaY -= diagonalMovement ;
+                                                break ;
+                                            case "L" :
+                                                deltaX -= diagonalMovement ;
+                                                deltaY -= diagonalMovement ;
+                                                break ;
+                                        }
+                                        break ;
+                                    case "D" :
+                                        switch ("" + tempArr[i].charAt(1)){
+                                            case "R" :
+                                                deltaX += diagonalMovement ;
+                                                deltaY += diagonalMovement ;
+                                                break ;
+                                            case "L" :
+                                                deltaX -= diagonalMovement ;
+                                                deltaY += diagonalMovement ;
+                                                break ;
+                                        }
+                                        break ;
+                                }
+                            }
+                        }
+                        else {
+                            correctness = false ;
+                        }
+                        break ;
+                    case "R" :
+                    case "L" :
+                        int horizontalMovement = myParseInt(tempArr[i].substring(1)) ;
+                        if (!((horizontalMovement >= 1) && (horizontalMovement <= 12))){
+                            correctness = false ;
+                        }
+                        else {
+                            switch ("" + tempArr[i].charAt(0)){
+                                case "R" :
+                                    deltaX += horizontalMovement * 2 ;
+                                    break ;
+                                case "L" :
+                                    deltaX -= horizontalMovement * 2 ;
+                                    break ;
+                            }
+                        }
+                        break ;
+
+                    default :
+                        correctness = false ;
+                        break ;
+                }
+            }
+            if (!correctness){
+                System.out.println("The way that you declare movement was false. try again:") ;
+            }
+
+            else {
+                int x = groupForce.getX() ;
+                int y = groupForce.getY() ;
+
+                if (!((x + deltaX >= 1) && (x + deltaX <= 25) && (y + deltaY >= 1) && (y + deltaY <= 9))){
+                    System.out.println("This coordinate is out of map") ;
+                }
+                else {
+                      if (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.RIVER) {
+                        System.out.println("The chosen house is river");
+                      }
+                      else if (!(gameField.getField()[x + deltaX][y + deltaY].isEmpty())) {
+                        System.out.println("The chosen house is full");
+                      }
+                      else if ((gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.SHELTER) && ((groupForce instanceof GroupTank) || (groupForce instanceof GroupArtillery))) {
+                        System.out.println("Tanks and artilleries cant go to shelters");
+                      }
+                      else {
+                          int distance = (Math.abs(deltaX) / 2) + Math.abs(deltaY) ;
+                          if (groupForce instanceof GroupPrivate){
+                              if (distance <= 2){
+                                  if (distance == 2){
+                                      canAttack = false ;
+                                  }
+                                  groupForce.setX(x + deltaX);
+                                  groupForce.setY(y + deltaY);
+                                  gameField.getField()[x + deltaX][y + deltaY].setEmpty(false);
+                                  gameField.getField()[x + deltaX][y + deltaY].setGroupForce(groupForce);
+                                  gameField.getField()[x][y].setGroupForce(null);
+                                  gameField.getField()[x][y].setEmpty(true);
+                                  break;
+
+                              }
+                              else {
+                                  System.out.println("Private can not move more than two steps") ;
+                              }
+                          }
+
+                          if (groupForce instanceof GroupTank){
+                              if (distance <= 3){
+                                  groupForce.setX(x + deltaX);
+                                  groupForce.setY(y + deltaY);
+                                  gameField.getField()[x + deltaX][y + deltaY].setEmpty(false);
+                                  gameField.getField()[x + deltaX][y + deltaY].setGroupForce(groupForce);
+                                  gameField.getField()[x][y].setGroupForce(null);
+                                  gameField.getField()[x][y].setEmpty(true);
+                                  break;
+                              }
+                              else {
+                                  System.out.println("Tank con not move more than three steps") ;
+                              }
+                          }
+
+                          if (groupForce instanceof GroupArtillery){
+                              if (distance <= 1){
+                                  if (distance == 1){
+                                      canAttack = false ;
+                                  }
+                                  groupForce.setX(x + deltaX);
+                                  groupForce.setY(y + deltaY);
+                                  gameField.getField()[x + deltaX][y + deltaY].setEmpty(false);
+                                  gameField.getField()[x + deltaX][y + deltaY].setGroupForce(groupForce);
+                                  gameField.getField()[x][y].setGroupForce(null);
+                                  gameField.getField()[x][y].setEmpty(true);
+                                  break;
+                              }
+                              else {
+                                  System.out.println("Artillery can not move more than one step") ;
+                              }
+                          }
+
+                      }
+                }
+            }
+
+        }
+
+        return canAttack ;
+    }
+
 
 
     public int checkInput (Scanner reader, int start, int finish){
@@ -195,16 +364,16 @@ public class User {
         for (int j = 1; j <= i; j++){
             switch (j) {
                 case 1 :
-                    System.out.print("write the first group force name you want to move") ;
+                    System.out.print("write the first group force name you want to move: ") ;
                     break ;
                 case 2 :
-                    System.out.print("write the second group force name you want to move") ;
+                    System.out.print("write the second group force name you want to move: ") ;
                     break ;
                 case 3 :
-                    System.out.print("write the third group force name you want to move") ;
+                    System.out.print("write the third group force name you want to move: ") ;
                     break ;
                 case 4 :
-                    System.out.print("write the fourth group force name you want to move") ;
+                    System.out.print("write the fourth group force name you want to move: ") ;
                     break ;
             }
 
@@ -245,6 +414,11 @@ public class User {
         }
         else {
             wantedGroupForcesToMove = getWantedGroupForcesOfTypes(reader, card) ;
+        }
+
+        ArrayList<Boolean> canWantedGroupForcesAttack = new ArrayList<>() ;
+        for (int i = 0; i < wantedGroupForcesToMove.size(); i++){
+            canWantedGroupForcesAttack.add(checkInputToMove(reader, wantedGroupForcesToMove.get(i), gameField)) ;
         }
 
 

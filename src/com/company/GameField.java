@@ -148,9 +148,10 @@ public class GameField {
         field[23][9] = new House(HouseType.CITY, 23, 9) ;
         field[25][9] = new House(HouseType.ORDINARY, 25, 9) ;
 
+    }
 
-
-
+    public House[][] getField (){
+        return field ;
     }
 
 

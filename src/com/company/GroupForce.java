@@ -7,6 +7,7 @@ public abstract class GroupForce {
     private User user ;
     private int x ;
     private int y ;
+    private boolean canAttack ;
 
 
     public GroupForce (User user, int number, int unitsNumber, int x, int y){
@@ -15,6 +16,15 @@ public abstract class GroupForce {
         this.unitsNumber = unitsNumber ;
         this.x = x ;
         this.y = y ;
+        canAttack = true ;
+    }
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
     }
 
     public int getNumber() {

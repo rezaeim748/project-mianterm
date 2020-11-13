@@ -12,6 +12,16 @@ public class GroupPrivate extends GroupForce {
     }
 
     @Override
+    public boolean isCanAttack() {
+        return super.isCanAttack();
+    }
+
+    @Override
+    public void setCanAttack(boolean canAttack) {
+        super.setCanAttack(canAttack);
+    }
+
+    @Override
     public User getUser() {
         return super.getUser();
     }

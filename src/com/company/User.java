@@ -42,6 +42,8 @@ public class User {
         groupForces.add(groupForce) ;
     }
 
+    public void removeGroupForce (GroupForce groupForce){ groupForces.remove(groupForce) ; }
+
     public ArrayList<GroupForce> getGroupForces() {
         return groupForces;
     }
@@ -83,20 +85,296 @@ public class User {
         return false ;
     }
 
+    public void privateAttack (GroupForce attacker, GroupForce defender, GameField gameField){
+        int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+        int allowedNumberOfRolling = 0 ;
+        switch (distance){
+            case 1 :
+                allowedNumberOfRolling = 3 ;
+                break ;
+            case 2 :
+                allowedNumberOfRolling = 2 ;
+                break ;
+            case 3 :
+                allowedNumberOfRolling = 1 ;
+                break ;
+        }
+        switch (gameField.getField()[defender.getY()][defender.getY()].getType()){
+            case HILL :
+                allowedNumberOfRolling -- ;
+                break ;
+            case JUNGLE :
+                allowedNumberOfRolling -- ;
+                break ;
+            case CITY :
+                allowedNumberOfRolling -- ;
+                break ;
+            case SHELTER :
+                if ((attacker.toString().charAt(0) + "").equals("h")){
+                    allowedNumberOfRolling -- ;
+                }
+                break ;
+            default :
+                break ;
+        }
 
-    public boolean checkInputToMove (Scanner reader, GroupForce groupForce, GameField gameField){
+        if (allowedNumberOfRolling <= 0){
+            System.out.println("You are not allowed to roll a dice") ;
+        }
+        else {
+            String defenderSpecifier = defender.toString().charAt(2) + "" ;
+            boolean canAttack = false ;
+            for (int i = 0; i < allowedNumberOfRolling; i++) {
+                int diceNumber = random.nextInt(6) + 1;
+                System.out.print("dice number: " + diceNumber + ";  ");
+                switch (diceNumber) {
+                    case 1 :
+                    case 6 :
+                        if (defenderSpecifier.equals("P")){
+                            canAttack = true ;
+                        }
+                        break ;
+                    case 2 :
+                        if (defenderSpecifier.equals("T")){
+                            canAttack = true ;
+                        }
+                        break ;
+                    case 3 :
+                    case 4 :
+                        break ;
+                    case 5 :
+                        canAttack = true ;
+                        break ;
+                }
+                if ((i == allowedNumberOfRolling - 1) && (!canAttack)){
+                    System.out.println("Unlucky!") ;
+                }
+                if (canAttack){
+                    i = allowedNumberOfRolling ;
+                }
+            }
+            if (canAttack){
+                System.out.println() ;
+                defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
+                if (defender.getUnitsNumber() == 0){
+                    User user = defender.getUser() ;
+                    user.removeGroupForce(defender) ;
+                }
+            }
+        }
+
+    }
+
+    public void tankAttack (GroupForce attacker, GroupForce defender, GameField gameField){
+        int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+        int allowedNumberOfRolling = 3 ;
+        switch (gameField.getField()[defender.getY()][defender.getY()].getType()){
+            case HILL :
+                allowedNumberOfRolling -- ;
+                break ;
+            case JUNGLE :
+                allowedNumberOfRolling -= 2 ;
+                break ;
+            case CITY :
+                allowedNumberOfRolling -= 2 ;
+                break ;
+            case SHELTER :
+                if ((attacker.toString().charAt(0) + "").equals("h")){
+                    allowedNumberOfRolling -= 2 ;
+                }
+                break ;
+            default :
+                break ;
+        }
+
+
+        String defenderSpecifier = defender.toString().charAt(2) + "" ;
+        boolean canAttack = false ;
+        for (int i = 0; i < allowedNumberOfRolling; i++) {
+            int diceNumber = random.nextInt(6) + 1;
+            System.out.print("dice number: " + diceNumber + ";  ");
+            switch (diceNumber) {
+                case 1 :
+                case 6 :
+                    if (defenderSpecifier.equals("P")){
+                        canAttack = true ;
+                    }
+                    break ;
+                case 2 :
+                    if (defenderSpecifier.equals("T")){
+                        canAttack = true ;
+                    }
+                    break ;
+                case 3 :
+                case 4 :
+                    break ;
+                case 5 :
+                    canAttack = true ;
+                    break ;
+            }
+            if ((i == allowedNumberOfRolling - 1) && (!canAttack)){
+                System.out.println("Unlucky!") ;
+            }
+            if (canAttack){
+                i = allowedNumberOfRolling ;
+            }
+        }
+        if (canAttack){
+            System.out.println() ;
+            defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
+            if (defender.getUnitsNumber() == 0){
+                User user = defender.getUser() ;
+                user.removeGroupForce(defender) ;
+            }
+        }
+
+
+    }
+
+    public void artilleryAttack (GroupForce attacker, GroupForce defender, GameField gameField){
+        int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+        int allowedNumberOfRolling = 0 ;
+        switch (distance){
+            case 1 :
+            case 2 :
+                allowedNumberOfRolling = 3 ;
+                break ;
+            case 3 :
+            case 4 :
+                allowedNumberOfRolling = 4 ;
+                break ;
+            case 5 :
+            case 6 :
+                allowedNumberOfRolling = 1 ;
+                break ;
+        }
+
+        String defenderSpecifier = defender.toString().charAt(2) + "" ;
+        boolean canAttack = false ;
+        for (int i = 0; i < allowedNumberOfRolling; i++) {
+            int diceNumber = random.nextInt(6) + 1;
+            System.out.print("dice number: " + diceNumber + ";  ");
+            switch (diceNumber) {
+                case 1 :
+                case 6 :
+                    if (defenderSpecifier.equals("P")){
+                        canAttack = true ;
+                    }
+                    break ;
+                case 2 :
+                    if (defenderSpecifier.equals("T")){
+                        canAttack = true ;
+                    }
+                    break ;
+                case 3 :
+                case 4 :
+                    break ;
+                case 5 :
+                    canAttack = true ;
+                    break ;
+            }
+            if ((i == allowedNumberOfRolling - 1) && (!canAttack)){
+                System.out.println("Unlucky!") ;
+            }
+            if (canAttack){
+                i = allowedNumberOfRolling ;
+            }
+        }
+        if (canAttack){
+            System.out.println() ;
+            defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
+            if (defender.getUnitsNumber() == 0){
+                User user = defender.getUser() ;
+                user.removeGroupForce(defender) ;
+            }
+        }
+
+
+    }
+
+
+    public void checkInputToAttack (Scanner reader, GroupForce attacker, GameField gameField, User competitor){
+        if (!attacker.isCanAttack()){
+            System.out.println(attacker.toString() + " can not attack this round") ;
+            return ;
+        }
+        System.out.print("write the group force name " + attacker.toString() + " want to attack: ") ;
+        String attackerLetter = attacker.toString().charAt(0) + "" ;
+        String defenderLetter ;
+        if (attackerLetter . equals("h")){
+            defenderLetter = "f" ;
+        }
+        else{
+            defenderLetter = "h" ;
+        }
+        String defenderName ;
+        while (true){
+            defenderName = reader.nextLine() ;
+            if (defenderName.equals("0")){
+                break ;
+            }
+            GroupForce defender = competitor.isGroupForceValid(defenderName) ;
+            if (defender == null){
+                System.out.println("Please choose a valid group force") ;
+            }
+            else if (attackerLetter.equals(defenderName.charAt(0) + "")){
+                System.out.println("You can not attack you own group force") ;
+            }
+            else {
+                int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+                if (attacker instanceof GroupPrivate){
+                    if (distance > 3){
+                        System.out.println("Your distance from your enemy is more than three. choose another enemy") ;
+                    }
+                    else {
+                        privateAttack(attacker, defender, gameField) ;
+                        break ;
+                    }
+                }
+                if (attacker instanceof GroupTank){
+                    if (distance > 3){
+                        System.out.println("Your distance from your enemy is more than three. choose another enemy") ;
+                    }
+                    else {
+                        tankAttack(attacker, defender, gameField) ;
+                        break ;
+                    }
+                }
+                if (attacker instanceof GroupArtillery){
+                    if (distance > 6){
+                        System.out.println("Your distance from your enemy is more than six. choose another enemy") ;
+                    }
+                    else {
+                        artilleryAttack(attacker, defender, gameField) ;
+                        break ;
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+    public void checkInputToMove (Scanner reader, GroupForce groupForce, GameField gameField){
         System.out.print("write your movement description for " + groupForce.toString() + ": ") ;
         String temp ;
         String[] tempArr ;
         boolean canAttack = true ;
 
         while (true){
-            temp = reader.nextLine() ;
-            tempArr = temp.split(" ", 6) ;
+            while (true) {
+                temp = reader.nextLine();
+                tempArr = temp.split(" ", 6);
+                if (!(temp.equals(""))){
+                    break ;
+                }
+            }
             int deltaX = 0 ;
             int deltaY = 0 ;
 
             if (temp.equals("0")){
+                groupForce.setCanAttack(true) ;
                 break ;
             }
 
@@ -191,7 +469,7 @@ public class User {
                           int distance = (Math.abs(deltaX) / 2) + Math.abs(deltaY) ;
                           if (groupForce instanceof GroupPrivate){
                               if (distance <= 2){
-                                  if (distance == 2){
+                                  if ((distance == 2) || (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.CITY) || (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.JUNGLE)){
                                       canAttack = false ;
                                   }
                                   groupForce.setX(x + deltaX);
@@ -210,6 +488,9 @@ public class User {
 
                           if (groupForce instanceof GroupTank){
                               if (distance <= 3){
+                                  if ((gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.CITY) || (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.JUNGLE)){
+                                      canAttack = false ;
+                                  }
                                   groupForce.setX(x + deltaX);
                                   groupForce.setY(y + deltaY);
                                   gameField.getField()[x + deltaX][y + deltaY].setEmpty(false);
@@ -225,7 +506,7 @@ public class User {
 
                           if (groupForce instanceof GroupArtillery){
                               if (distance <= 1){
-                                  if (distance == 1){
+                                  if ((distance == 1) || (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.CITY) || (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.JUNGLE)){
                                       canAttack = false ;
                                   }
                                   groupForce.setX(x + deltaX);
@@ -247,7 +528,9 @@ public class User {
 
         }
 
-        return canAttack ;
+        if (!canAttack){
+            groupForce.setCanAttack(false) ;
+        }
     }
 
 
@@ -426,14 +709,30 @@ public class User {
 
 
 
-    public void getCommands (GameField gameField, ArrayList<Card> allCards, ArrayList<Card> usedCards){
+    public void getCommands (GameField gameField, ArrayList<Card> allCards, ArrayList<Card> usedCards, User competitor){
         Scanner reader = new Scanner(System.in) ;
 
+        gameField.showCoordinates() ;
         System.out.println("User " + letter + " its your turn") ;
         System.out.println("Choose a card number") ;
         showCards() ;
         int cardNumber = checkInput(reader, 1, cards.size()) ;
         Card card = cards.get(cardNumber - 1) ;
+        cards.remove(card) ;
+        usedCards.add(card) ;
+        Card alternativeCard = allCards.get(random.nextInt(allCards.size())) ;
+        cards.add(alternativeCard) ;
+        allCards.remove(alternativeCard) ;
+        if (allCards.size() == 0){
+            for (int i = 0; i < usedCards.size(); i++){
+                Card x = usedCards.get(i) ;
+                allCards.add(x) ;
+                usedCards.remove(x) ;
+            }
+        }
+
+
+
         ArrayList<GroupForce> wantedGroupForcesToMove = new ArrayList<>() ;
         if (card.getType() == CardType.ORDER3UNITS){
             wantedGroupForcesToMove = getWantedGroupForcesOfAType(reader, card) ;
@@ -443,9 +742,18 @@ public class User {
         }
 
         ArrayList<Boolean> canWantedGroupForcesAttack = new ArrayList<>() ;
-        for (int i = 0; i < wantedGroupForcesToMove.size(); i++){
-            canWantedGroupForcesAttack.add(checkInputToMove(reader, wantedGroupForcesToMove.get(i), gameField)) ;
+        for (GroupForce groupForce : wantedGroupForcesToMove){
+            checkInputToMove(reader, groupForce, gameField) ;
         }
+        gameField.showCoordinates() ;
+
+        ArrayList<GroupForce> groupForcesToAttack = wantedGroupForcesToMove ;
+        for (GroupForce groupForce : groupForcesToAttack){
+            checkInputToAttack(reader, groupForce, gameField, competitor) ;
+        }
+
+
+
 
 
 

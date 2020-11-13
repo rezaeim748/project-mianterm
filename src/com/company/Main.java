@@ -85,11 +85,11 @@ public class Main {
         boolean finished = false ;
         while (!finished){
             gameField.showCoordinates() ;
-            user1.getCommands() ;
+            user1.getCommands(gameField, cards, usedCards) ;
             if (finished){
                 break ;
             }
-            user2.getCommands() ;
+            user2.getCommands(gameField, cards, usedCards) ;
         }
 
 

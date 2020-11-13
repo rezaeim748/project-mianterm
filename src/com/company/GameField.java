@@ -262,6 +262,7 @@ public class GameField {
             }
             System.out.println() ;
         }
+        System.out.println() ;
 
     }
 

@@ -84,14 +84,12 @@ public class Main {
 
         boolean finished = false ;
         while (!finished){
-            user1.getCommands(gameField, cards, usedCards, user2) ;
+            finished = user1.getCommands(gameField, cards, usedCards, user2) ;
             if (finished){
                 break ;
             }
-            user2.getCommands(gameField, cards, usedCards, user1) ;
+            finished = user2.getCommands(gameField, cards, usedCards, user1) ;
         }
-
-
 
 
 

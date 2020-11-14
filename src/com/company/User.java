@@ -1,8 +1,6 @@
 package com.company;
 
-import java.util.Random ;
-import java.util.ArrayList ;
-import java.util.Scanner;
+import java.util.*;
 
 public class User {
 
@@ -64,6 +62,22 @@ public class User {
     }
 
 
+    public int setDistance (GroupForce attacker, GroupForce defender){
+        int deltaX = defender.getX() - attacker.getX() ;
+        int deltaY = defender.getY() - attacker.getY() ;
+        int yd = deltaX ;
+        int xd = deltaY ;
+        int xa = 0 ;
+        int ya = 0 ;
+        ArrayList<Integer> maxFinder = new ArrayList<>() ;
+        maxFinder.add(Math.abs(yd - ya)) ;
+        maxFinder.add(Math.abs(xd - xa)) ;
+        maxFinder.add(Math.abs(xd - yd + xa + ya)) ;
+
+        return Collections.max(maxFinder) ;
+
+
+    }
 
     public int myParseInt (String string){
         try{
@@ -86,7 +100,7 @@ public class User {
     }
 
     public void privateAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+        int distance = setDistance(attacker, defender) ;
         int allowedNumberOfRolling = 0 ;
         switch (distance){
             case 1 :
@@ -167,7 +181,7 @@ public class User {
     }
 
     public void tankAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+        int distance = setDistance(attacker, defender) ;
         int allowedNumberOfRolling = 3 ;
         switch (gameField.getField()[defender.getY()][defender.getY()].getType()){
             case HILL :
@@ -234,7 +248,7 @@ public class User {
     }
 
     public void artilleryAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+        int distance = setDistance(attacker, defender) ;
         int allowedNumberOfRolling = 0 ;
         switch (distance){
             case 1 :
@@ -321,10 +335,10 @@ public class User {
                 System.out.println("Please choose a valid group force") ;
             }
             else if (attackerLetter.equals(defenderName.charAt(0) + "")){
-                System.out.println("You can not attack you own group force") ;
+                System.out.println("You can not attack your own group force") ;
             }
             else {
-                int distance = Math.abs(attacker.getX() - defender.getX()) / 2 + Math.abs(attacker.getY() - defender.getY()) ;
+                int distance = setDistance(attacker, defender) ;
                 if (attacker instanceof GroupPrivate){
                     if (distance > 3){
                         System.out.println("Your distance from your enemy is more than three. choose another enemy") ;
@@ -712,9 +726,15 @@ public class User {
 
 
 
-    public void getCommands (GameField gameField, ArrayList<Card> allCards, ArrayList<Card> usedCards, User competitor){
+    public boolean getCommands (GameField gameField, ArrayList<Card> allCards, ArrayList<Card> usedCards, User competitor){
         Scanner reader = new Scanner(System.in) ;
 
+        if (letter.equals("h")) {
+            gameField.setForces(this, competitor) ;
+        }
+        else {
+            gameField.setForces(competitor, this) ;
+        }
         gameField.showCoordinates() ;
         System.out.println("User " + letter + " its your turn") ;
         System.out.println("Choose a card number") ;
@@ -733,6 +753,7 @@ public class User {
                 usedCards.remove(x) ;
             }
         }
+
         ArrayList<GroupForce> wantedGroupForcesToMove = new ArrayList<>() ;
         if (card.getType() == CardType.ORDER3UNITS){
             wantedGroupForcesToMove = getWantedGroupForcesOfAType(reader, card) ;
@@ -744,6 +765,12 @@ public class User {
             checkInputToMove(reader, groupForce, gameField) ;
         }
 
+        if (letter.equals("h")) {
+            gameField.setForces(this, competitor) ;
+        }
+        else {
+            gameField.setForces(competitor, this) ;
+        }
         gameField.showCoordinates() ;
 
         ArrayList<GroupForce> groupForcesToAttack = wantedGroupForcesToMove ;
@@ -751,6 +778,20 @@ public class User {
             checkInputToAttack(reader, groupForce, gameField, competitor) ;
         }
 
+        if (getMedalsNumber() == 6){
+            if (letter.equals("h")){
+                System.out.println("Allied won") ;
+                System.out.println("scores: Allied = " + getMedalsNumber() + "; Axis = " + competitor.getMedalsNumber()) ;
+                return true ;
+            }
+            else {
+                System.out.println("Axis won") ;
+                System.out.println("scores: Axis = " + getMedalsNumber() + "; Allied = " + competitor.getMedalsNumber()) ;
+                return true ;
+            }
+        }
+
+        return false ;
 
 
 

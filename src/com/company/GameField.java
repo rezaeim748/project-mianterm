@@ -290,7 +290,29 @@ public class GameField {
             field[x][y].setGroupForce(groupForce) ;
         }
 
+        if (field[1][3].getGroupForce() != null){
+            if ((field[1][3].getGroupForce().toString().charAt(0) + "").equals("h")){
+                user1.setMedalOfConquest(1) ;
+            }
+            else {
+                user1.setMedalOfConquest(0) ;
+            }
+        }
+        else {
+            user1.setMedalOfConquest(0) ;
+        }
 
+        if (field[23][9].getGroupForce() != null){
+            if ((field[23][9].getGroupForce().toString().charAt(0) + "").equals("f")){
+                user2.setMedalOfConquest(1) ;
+            }
+            else {
+                user2.setMedalOfConquest(0) ;
+            }
+        }
+        else {
+            user2.setMedalOfConquest(0) ;
+        }
 
 
 

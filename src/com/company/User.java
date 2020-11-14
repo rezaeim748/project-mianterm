@@ -62,20 +62,21 @@ public class User {
     }
 
 
-    public int setDistance (GroupForce attacker, GroupForce defender){
-        int deltaX = defender.getX() - attacker.getX() ;
-        int deltaY = defender.getY() - attacker.getY() ;
-        int yd = deltaX ;
-        int xd = deltaY ;
-        int xa = 0 ;
-        int ya = 0 ;
-        ArrayList<Integer> maxFinder = new ArrayList<>() ;
-        maxFinder.add(Math.abs(yd - ya)) ;
-        maxFinder.add(Math.abs(xd - xa)) ;
-        maxFinder.add(Math.abs(xd - yd + xa + ya)) ;
+    public int setDistance (int xd, int yd, int xa, int ya){
+        int deltaX = Math.abs(xd - xa) ;
+        int deltaY = Math.abs(yd - ya) ;
+        int distance = 0 ;
+        if (deltaX == deltaY){
+            distance = deltaX ;
+        }
+        if (deltaX > deltaY){
+            distance = deltaY + (deltaX - deltaY) / 2 ;
+        }
+        if (deltaY > deltaX){
+            distance = deltaY ;
+        }
 
-        return Collections.max(maxFinder) ;
-
+        return distance ;
 
     }
 
@@ -100,7 +101,7 @@ public class User {
     }
 
     public void privateAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = setDistance(attacker, defender) ;
+        int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
         int allowedNumberOfRolling = 0 ;
         switch (distance){
             case 1 :
@@ -181,7 +182,7 @@ public class User {
     }
 
     public void tankAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = setDistance(attacker, defender) ;
+        int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
         int allowedNumberOfRolling = 3 ;
         switch (gameField.getField()[defender.getY()][defender.getY()].getType()){
             case HILL :
@@ -248,7 +249,7 @@ public class User {
     }
 
     public void artilleryAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = setDistance(attacker, defender) ;
+        int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
         int allowedNumberOfRolling = 0 ;
         switch (distance){
             case 1 :
@@ -338,7 +339,7 @@ public class User {
                 System.out.println("You can not attack your own group force") ;
             }
             else {
-                int distance = setDistance(attacker, defender) ;
+                int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
                 if (attacker instanceof GroupPrivate){
                     if (distance > 3){
                         System.out.println("Your distance from your enemy is more than three. choose another enemy") ;
@@ -483,7 +484,7 @@ public class User {
                         System.out.println("Tanks and artilleries cant go to shelters");
                       }
                       else {
-                          int distance = (Math.abs(deltaX) / 2) + Math.abs(deltaY) ;
+                          int distance = setDistance(x + deltaX, y + deltaY, x, y) ;
                           if (groupForce instanceof GroupPrivate){
                               if (distance <= 2){
                                   if ((distance == 2) || (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.CITY) || (gameField.getField()[x + deltaX][y + deltaY].getType() == HouseType.JUNGLE)){
@@ -740,6 +741,9 @@ public class User {
         System.out.println("Choose a card number") ;
         showCards() ;
         int cardNumber = checkInput(reader, 1, cards.size()) ;
+        if (cardNumber == 0){
+            return true ;
+        }
         Card card = cards.get(cardNumber - 1) ;
         cards.remove(card) ;
         usedCards.add(card) ;

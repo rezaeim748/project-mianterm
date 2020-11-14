@@ -172,6 +172,8 @@ public class User {
                 System.out.println() ;
                 defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
                 if (defender.getUnitsNumber() == 0){
+                    gameField.getField()[defender.getX()][defender.getY()].setGroupForce(null) ;
+                    gameField.getField()[defender.getX()][defender.getY()].setEmpty(true) ;
                     User user = defender.getUser() ;
                     user.removeGroupForce(defender) ;
                     attacker.getUser().addMedal() ;
@@ -239,6 +241,8 @@ public class User {
             System.out.println() ;
             defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
             if (defender.getUnitsNumber() == 0){
+                gameField.getField()[defender.getX()][defender.getY()].setGroupForce(null) ;
+                gameField.getField()[defender.getX()][defender.getY()].setEmpty(true) ;
                 User user = defender.getUser() ;
                 user.removeGroupForce(defender) ;
                 attacker.getUser().addMedal() ;
@@ -301,6 +305,8 @@ public class User {
             System.out.println() ;
             defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
             if (defender.getUnitsNumber() == 0){
+                gameField.getField()[defender.getX()][defender.getY()].setGroupForce(null) ;
+                gameField.getField()[defender.getX()][defender.getY()].setEmpty(true) ;
                 User user = defender.getUser() ;
                 user.removeGroupForce(defender) ;
                 attacker.getUser().addMedal() ;

@@ -150,7 +150,7 @@ public class User {
                     System.out.println("Unlucky!") ;
                 }
                 if (canAttack){
-                    i = allowedNumberOfRolling ;
+                    break ;
                 }
             }
             if (canAttack){
@@ -159,6 +159,7 @@ public class User {
                 if (defender.getUnitsNumber() == 0){
                     User user = defender.getUser() ;
                     user.removeGroupForce(defender) ;
+                    attacker.getUser().addMedal() ;
                 }
             }
         }
@@ -216,7 +217,7 @@ public class User {
                 System.out.println("Unlucky!") ;
             }
             if (canAttack){
-                i = allowedNumberOfRolling ;
+                break ;
             }
         }
         if (canAttack){
@@ -225,6 +226,7 @@ public class User {
             if (defender.getUnitsNumber() == 0){
                 User user = defender.getUser() ;
                 user.removeGroupForce(defender) ;
+                attacker.getUser().addMedal() ;
             }
         }
 
@@ -277,7 +279,7 @@ public class User {
                 System.out.println("Unlucky!") ;
             }
             if (canAttack){
-                i = allowedNumberOfRolling ;
+                break ;
             }
         }
         if (canAttack){
@@ -286,6 +288,7 @@ public class User {
             if (defender.getUnitsNumber() == 0){
                 User user = defender.getUser() ;
                 user.removeGroupForce(defender) ;
+                attacker.getUser().addMedal() ;
             }
         }
 
@@ -730,9 +733,6 @@ public class User {
                 usedCards.remove(x) ;
             }
         }
-
-
-
         ArrayList<GroupForce> wantedGroupForcesToMove = new ArrayList<>() ;
         if (card.getType() == CardType.ORDER3UNITS){
             wantedGroupForcesToMove = getWantedGroupForcesOfAType(reader, card) ;
@@ -740,11 +740,10 @@ public class User {
         else {
             wantedGroupForcesToMove = getWantedGroupForcesOfTypes(reader, card) ;
         }
-
-        ArrayList<Boolean> canWantedGroupForcesAttack = new ArrayList<>() ;
         for (GroupForce groupForce : wantedGroupForcesToMove){
             checkInputToMove(reader, groupForce, gameField) ;
         }
+
         gameField.showCoordinates() ;
 
         ArrayList<GroupForce> groupForcesToAttack = wantedGroupForcesToMove ;

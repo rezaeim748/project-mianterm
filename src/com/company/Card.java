@@ -4,6 +4,10 @@ public class Card {
 
     private CardType type ;
 
+    /**
+     * Perform any initialization that is required
+     * @param typeSpecifier Type specifier
+     */
     public Card (String typeSpecifier){
         switch (typeSpecifier){
             case ("1g") :
@@ -25,6 +29,8 @@ public class Card {
                 type = null ;
         }
     }
+
+    // getters and setters
 
     public CardType getType (){ return type ; }
 

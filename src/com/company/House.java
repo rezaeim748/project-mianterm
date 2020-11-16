@@ -9,7 +9,12 @@ public class House {
     private boolean isEmpty ;
 
 
-
+    /**
+     * Perform any initialization that is required
+     * @param type Type of the house
+     * @param x x coordinate of the house
+     * @param y y coordinate of the house
+     */
     public House (HouseType type, int x, int y){
         this.type = type ;
         this.x = x ;
@@ -17,6 +22,7 @@ public class House {
         isEmpty = true ;
     }
 
+    // getters and setters
 
     public HouseType getType() {
         return type;

@@ -100,222 +100,6 @@ public class User {
         return false ;
     }
 
-    public void privateAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
-        int allowedNumberOfRolling = 0 ;
-        switch (distance){
-            case 1 :
-                allowedNumberOfRolling = 3 ;
-                break ;
-            case 2 :
-                allowedNumberOfRolling = 2 ;
-                break ;
-            case 3 :
-                allowedNumberOfRolling = 1 ;
-                break ;
-        }
-        switch (gameField.getField()[defender.getX()][defender.getY()].getType()){
-            case HILL :
-                allowedNumberOfRolling -- ;
-                break ;
-            case JUNGLE :
-                allowedNumberOfRolling -- ;
-                break ;
-            case CITY :
-                allowedNumberOfRolling -- ;
-                break ;
-            case SHELTER :
-                if ((attacker.toString().charAt(0) + "").equals("h")){
-                    allowedNumberOfRolling -- ;
-                }
-                break ;
-            default :
-                break ;
-        }
-
-        if (allowedNumberOfRolling <= 0){
-            System.out.println("You are not allowed to roll a dice") ;
-        }
-        else {
-            String defenderSpecifier = defender.toString().charAt(2) + "" ;
-            boolean canAttack = false ;
-            for (int i = 0; i < allowedNumberOfRolling; i++) {
-                int diceNumber = random.nextInt(6) + 1;
-                System.out.print("dice number: " + diceNumber + ";  ");
-                switch (diceNumber) {
-                    case 1 :
-                    case 6 :
-                        if (defenderSpecifier.equals("P")){
-                            canAttack = true ;
-                        }
-                        break ;
-                    case 2 :
-                        if (defenderSpecifier.equals("T")){
-                            canAttack = true ;
-                        }
-                        break ;
-                    case 3 :
-                    case 4 :
-                        break ;
-                    case 5 :
-                        canAttack = true ;
-                        break ;
-                }
-                if ((i == allowedNumberOfRolling - 1) && (!canAttack)){
-                    System.out.println("Unlucky!") ;
-                }
-                if (canAttack){
-                    break ;
-                }
-            }
-            if (canAttack){
-                System.out.println() ;
-                defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
-                if (defender.getUnitsNumber() == 0){
-                    gameField.getField()[defender.getX()][defender.getY()].setGroupForce(null) ;
-                    gameField.getField()[defender.getX()][defender.getY()].setEmpty(true) ;
-                    User user = defender.getUser() ;
-                    user.removeGroupForce(defender) ;
-                    attacker.getUser().addMedal() ;
-                }
-            }
-        }
-
-    }
-
-    public void tankAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
-        int allowedNumberOfRolling = 3 ;
-        switch (gameField.getField()[defender.getX()][defender.getY()].getType()){
-            case HILL :
-                allowedNumberOfRolling -- ;
-                break ;
-            case JUNGLE :
-                allowedNumberOfRolling -= 2 ;
-                break ;
-            case CITY :
-                allowedNumberOfRolling -= 2 ;
-                break ;
-            case SHELTER :
-                if ((attacker.toString().charAt(0) + "").equals("h")){
-                    allowedNumberOfRolling -= 2 ;
-                }
-                break ;
-            default :
-                break ;
-        }
-
-
-        String defenderSpecifier = defender.toString().charAt(2) + "" ;
-        boolean canAttack = false ;
-        for (int i = 0; i < allowedNumberOfRolling; i++) {
-            int diceNumber = random.nextInt(6) + 1;
-            System.out.print("dice number: " + diceNumber + ";  ");
-            switch (diceNumber) {
-                case 1 :
-                case 6 :
-                    if (defenderSpecifier.equals("P")){
-                        canAttack = true ;
-                    }
-                    break ;
-                case 2 :
-                    if (defenderSpecifier.equals("T")){
-                        canAttack = true ;
-                    }
-                    break ;
-                case 3 :
-                case 4 :
-                    break ;
-                case 5 :
-                    canAttack = true ;
-                    break ;
-            }
-            if ((i == allowedNumberOfRolling - 1) && (!canAttack)){
-                System.out.println("Unlucky!") ;
-            }
-            if (canAttack){
-                break ;
-            }
-        }
-        if (canAttack){
-            System.out.println() ;
-            defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
-            if (defender.getUnitsNumber() == 0){
-                gameField.getField()[defender.getX()][defender.getY()].setGroupForce(null) ;
-                gameField.getField()[defender.getX()][defender.getY()].setEmpty(true) ;
-                User user = defender.getUser() ;
-                user.removeGroupForce(defender) ;
-                attacker.getUser().addMedal() ;
-            }
-        }
-
-
-    }
-
-    public void artilleryAttack (GroupForce attacker, GroupForce defender, GameField gameField){
-        int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
-        int allowedNumberOfRolling = 0 ;
-        switch (distance){
-            case 1 :
-            case 2 :
-                allowedNumberOfRolling = 3 ;
-                break ;
-            case 3 :
-            case 4 :
-                allowedNumberOfRolling = 4 ;
-                break ;
-            case 5 :
-            case 6 :
-                allowedNumberOfRolling = 1 ;
-                break ;
-        }
-
-        String defenderSpecifier = defender.toString().charAt(2) + "" ;
-        boolean canAttack = false ;
-        for (int i = 0; i < allowedNumberOfRolling; i++) {
-            int diceNumber = random.nextInt(6) + 1;
-            System.out.print("dice number: " + diceNumber + ";  ");
-            switch (diceNumber) {
-                case 1 :
-                case 6 :
-                    if (defenderSpecifier.equals("P")){
-                        canAttack = true ;
-                    }
-                    break ;
-                case 2 :
-                    if (defenderSpecifier.equals("T")){
-                        canAttack = true ;
-                    }
-                    break ;
-                case 3 :
-                case 4 :
-                    break ;
-                case 5 :
-                    canAttack = true ;
-                    break ;
-            }
-            if ((i == allowedNumberOfRolling - 1) && (!canAttack)){
-                System.out.println("Unlucky!") ;
-            }
-            if (canAttack){
-                break ;
-            }
-        }
-        if (canAttack){
-            System.out.println() ;
-            defender.setUnitsNumber(defender.getUnitsNumber() - 1) ;
-            if (defender.getUnitsNumber() == 0){
-                gameField.getField()[defender.getX()][defender.getY()].setGroupForce(null) ;
-                gameField.getField()[defender.getX()][defender.getY()].setEmpty(true) ;
-                User user = defender.getUser() ;
-                user.removeGroupForce(defender) ;
-                attacker.getUser().addMedal() ;
-            }
-        }
-
-
-    }
-
 
     public void checkInputToAttack (Scanner reader, GroupForce attacker, GameField gameField, User competitor){
         if (!attacker.isCanAttack()){
@@ -351,7 +135,7 @@ public class User {
                         System.out.println("Your distance from your enemy is more than three. choose another enemy") ;
                     }
                     else {
-                        privateAttack(attacker, defender, gameField) ;
+                        attacker.attack(attacker, defender, gameField) ;
                         break ;
                     }
                 }
@@ -360,7 +144,7 @@ public class User {
                         System.out.println("Your distance from your enemy is more than three. choose another enemy") ;
                     }
                     else {
-                        tankAttack(attacker, defender, gameField) ;
+                        attacker.attack(attacker, defender, gameField) ;
                         break ;
                     }
                 }
@@ -369,7 +153,7 @@ public class User {
                         System.out.println("Your distance from your enemy is more than six. choose another enemy") ;
                     }
                     else {
-                        artilleryAttack(attacker, defender, gameField) ;
+                        attacker.attack(attacker, defender, gameField);
                         break ;
                     }
                 }

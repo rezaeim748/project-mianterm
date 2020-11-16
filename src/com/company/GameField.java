@@ -16,14 +16,24 @@ public class GameField {
     public static final String ANSI_WHITE = "\u001B[37m";
 
 
-
-
-
+    /**
+     * Perform any initialization that is required
+     */
     public GameField (){
         field = new House[26][10] ;
         setField() ;
     }
 
+    // getters and setters
+
+    public House[][] getField (){
+        return field ;
+    }
+
+
+    /**
+     * Set field status at the beginning of the game
+     */
     private void setField (){
 
         field[1][1] = new House(HouseType.HILL, 1, 1) ;
@@ -150,13 +160,11 @@ public class GameField {
 
     }
 
-    public House[][] getField (){
-        return field ;
-    }
 
-
-
-
+    /**
+     * Set field to an array to make the showing process easier
+     * @return An Array with two dimensions
+     */
     public String[][] setFieldToCoordinates (){
         String[][] coordinates = new String[79][37] ;
         for (int x = 1; x <= 25; x++){
@@ -216,10 +224,12 @@ public class GameField {
         }
 
         return coordinates ;
-
-
     }
 
+
+    /**
+     * Show coordinates
+     */
     public void showCoordinates (){
 
         String[][] coordinates = setFieldToCoordinates() ;
@@ -268,7 +278,11 @@ public class GameField {
     }
 
 
-
+    /**
+     * Set forces to the field
+     * @param user1 The first player
+     * @param user2 The second player
+     */
     public void setForces (User user1, User user2){
         for (int x = 1; x <= 25; x++){
             for (int y = 1; y <= 9; y++){

@@ -7,6 +7,11 @@ public class Main {
 
     static Random random = new Random() ;
 
+    /**
+     * Give cards to allied team at the beginning of the game
+     * @param allied The allied team
+     * @param cards The cards to be given
+     */
     private static void giveCardsToAllied (User allied, ArrayList<Card> cards){
         for (int i = 0; i < 4; i++) {
             int index = random.nextInt(cards.size());
@@ -15,6 +20,11 @@ public class Main {
         }
     }
 
+    /**
+     * Give cards to axis team at the beginning of the game
+     * @param Axis The axis team
+     * @param cards The cards to be given
+     */
     public static void giveCardsToAxis (User Axis, ArrayList<Card> cards){
         for (int i = 0; i < 2; i++){
             int index = random.nextInt(cards.size()) ;
@@ -23,6 +33,10 @@ public class Main {
         }
     }
 
+    /**
+     * Make the cards of the game
+     * @param cards The cards to be made
+     */
     private static void makeCards (ArrayList<Card> cards){
         for (int i = 0; i < 6; i++){
             cards.add(new Card("1g")) ;
@@ -41,6 +55,10 @@ public class Main {
         }
     }
 
+    /**
+     * Add forces to allied team at the beginning of the game
+     * @param allied The allied team
+     */
     private static void addForcesToAllied (User allied){
         for (int i = 1; i <= 8; i++){
             allied.addGroupForce(new GroupPrivate(allied, i, 2 * i - 1, 9)) ;
@@ -53,6 +71,10 @@ public class Main {
         }
     }
 
+    /**
+     * Add forces to axis team at the beginning of the game
+     * @param axis The axis team
+     */
     private static void addForcesToAxis (User axis){
         for (int i = 1; i <= 7; i++){
             axis.addGroupForce(new GroupPrivate(axis, i, 2 * i - 1, 1));

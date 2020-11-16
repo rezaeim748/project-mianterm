@@ -11,6 +11,10 @@ public class User {
     private int medalsOfDestruction ;
     private Random random ;
 
+    /**
+     * Perform any initialization that is required
+     * @param letter The letter which represents each user
+     */
     public User (String letter){
         this.letter = letter ;
         cards = new ArrayList<>() ;
@@ -19,6 +23,8 @@ public class User {
         medalsOfDestruction = 0 ;
         random = new Random() ;
     }
+
+    // getters and setters
 
     public String getLetter() {
         return letter ;
@@ -54,6 +60,9 @@ public class User {
         cards.remove(card) ;
     }
 
+    /**
+     * Show cards
+     */
     public void showCards (){
         for (int i = 1; i <= cards.size(); i++){
             System.out.print(i + "." + cards.get(i - 1).getType() + "  ") ;
@@ -62,6 +71,14 @@ public class User {
     }
 
 
+    /**
+     * Calculate the distance of two house in hexagonal map
+     * @param xd x coordinate of the defender
+     * @param yd y coordinate of the defender
+     * @param xa x coordinate of the attacker
+     * @param ya y coordinate of the attacker
+     * @return An Int which stores the distance
+     */
     public int setDistance (int xd, int yd, int xa, int ya){
         int deltaX = Math.abs(xd - xa) ;
         int deltaY = Math.abs(yd - ya) ;
@@ -80,6 +97,11 @@ public class User {
 
     }
 
+    /**
+     * Turn the given string to an integer
+     * @param string The given string
+     * @return An Integer
+     */
     public int myParseInt (String string){
         try{
             return Integer.parseInt(string) ;
@@ -91,6 +113,13 @@ public class User {
     }
 
 
+    /**
+     * check if the input is in a particular period or not
+     * @param start The start point of the period
+     * @param finish The finish point of the period
+     * @param input The inout
+     * @return A boolean
+     */
     public boolean isNumberCorrect (int start, int finish, int input){
         for (int i = start; i <= finish; i++){
             if (i == input){
@@ -101,6 +130,13 @@ public class User {
     }
 
 
+    /**
+     * Perform the attack process
+     * @param reader The scanner which get input from user
+     * @param attacker The attacker group force
+     * @param gameField The game field
+     * @param competitor The user competitor
+     */
     public void checkInputToAttack (Scanner reader, GroupForce attacker, GameField gameField, User competitor){
         if (!attacker.isCanAttack()){
             System.out.println(attacker.toString() + " can not attack this round") ;
@@ -162,8 +198,12 @@ public class User {
     }
 
 
-
-
+    /**
+     * Perform the move process
+     * @param reader The scanner which get inputs from user
+     * @param groupForce the group force that user want to move
+     * @param gameField The game field
+     */
     public void checkInputToMove (Scanner reader, GroupForce groupForce, GameField gameField){
         System.out.print("write your movement description for " + groupForce.toString() + ": ") ;
         String temp ;
@@ -342,7 +382,13 @@ public class User {
     }
 
 
-
+    /**
+     * Check if the given input is right or not
+     * @param reader The scanner which get inputs from user
+     * @param start The start point of the period
+     * @param finish The finish point of the period
+     * @return An Integer which stores the correct input
+     */
     public int checkInput (Scanner reader, int start, int finish){
 
         int input ;
@@ -364,6 +410,11 @@ public class User {
     }
 
 
+    /**
+     * Get the number of the groups of a particular type of the forces
+     * @param typeNumber The number which refers to a type
+     * @return An Integer
+     */
     public int getNumberOfTheGroupsOfAForce (int typeNumber){
         int number = 0 ;
         for (GroupForce groupForce1 : groupForces){
@@ -387,6 +438,11 @@ public class User {
     }
 
 
+    /**
+     * Check if the given group force is valid or not
+     * @param groupName The name of the group force
+     * @return A GroupForce
+     */
     public GroupForce isGroupForceValid (String groupName){
         for (GroupForce groupForce : groupForces){
             if (groupForce.toString().equals(groupName)){
@@ -397,7 +453,12 @@ public class User {
     }
 
 
-
+    /**
+     * Get the groups of a particular type of the forces
+     * @param reader The scanner which gets inputs from user
+     * @param card The Card
+     * @return An ArrayList of the groups of the force
+     */
     public ArrayList<GroupForce> getWantedGroupForcesOfAType (Scanner reader, Card card){
         ArrayList<GroupForce> wantedGroupForces = new ArrayList<>() ;
         System.out.println("1.Private  2.Tank  3.Artillery") ;
@@ -459,7 +520,12 @@ public class User {
     }
 
 
-
+    /**
+     * Get the groups from all types of the forces
+     * @param reader The scanner which gets inputs from user
+     * @param card The card
+     * @return An ArrayList of the groups of the forces
+     */
     public ArrayList<GroupForce> getWantedGroupForcesOfTypes (Scanner reader, Card card){
         ArrayList<GroupForce> wantedGroupForces = new ArrayList<>() ;
         int i = 0 ;
@@ -514,9 +580,14 @@ public class User {
     }
 
 
-
-
-
+    /**
+     * Get the commands of the user
+     * @param gameField The game field
+     * @param allCards The cards
+     * @param usedCards The used cards
+     * @param competitor The competitor of the user
+     * @return A boolean which shows the game is finished or not
+     */
     public boolean getCommands (GameField gameField, ArrayList<Card> allCards, ArrayList<Card> usedCards, User competitor){
         Scanner reader = new Scanner(System.in) ;
 

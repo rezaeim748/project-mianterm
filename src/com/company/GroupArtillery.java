@@ -61,13 +61,4 @@ public class GroupArtillery extends GroupForce {
         super.setY(y);
     }
 
-    @Override
-    public void move() {
-        super.move();
-    }
-
-    @Override
-    public void attack() {
-        super.attack();
-    }
 }

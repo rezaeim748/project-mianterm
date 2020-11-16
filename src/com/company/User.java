@@ -114,7 +114,7 @@ public class User {
                 allowedNumberOfRolling = 1 ;
                 break ;
         }
-        switch (gameField.getField()[defender.getY()][defender.getY()].getType()){
+        switch (gameField.getField()[defender.getX()][defender.getY()].getType()){
             case HILL :
                 allowedNumberOfRolling -- ;
                 break ;
@@ -186,7 +186,7 @@ public class User {
     public void tankAttack (GroupForce attacker, GroupForce defender, GameField gameField){
         int distance = setDistance(defender.getX(), defender.getY(), attacker.getX(), attacker.getY()) ;
         int allowedNumberOfRolling = 3 ;
-        switch (gameField.getField()[defender.getY()][defender.getY()].getType()){
+        switch (gameField.getField()[defender.getX()][defender.getY()].getType()){
             case HILL :
                 allowedNumberOfRolling -- ;
                 break ;
